@@ -79,7 +79,7 @@ void Game::play()
                 continue;
             case 'h':
                 m_mesa->history().display();
-                cout << "Press enter to continue...";
+                cout << "Press enter to continue";
                 cin.ignore(10000, '\n');
                 m_mesa->display();
                 continue;
