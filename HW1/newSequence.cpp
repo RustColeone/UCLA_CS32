@@ -28,7 +28,7 @@ Sequence&Sequence::operator=(const Sequence& incoming){
     return *this;
 }
 Sequence::~Sequence() {
-	delete sequenceItems;
+	delete[] sequenceItems;
 }
 
 bool Sequence::empty() {
