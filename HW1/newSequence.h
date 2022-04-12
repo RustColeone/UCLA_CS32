@@ -15,6 +15,7 @@ public:
     Sequence(int setMax);    // Create an empty sequence (i.e., one with no items)
     Sequence(const Sequence& other);
     Sequence& operator=(const Sequence& incoming);
+    ~Sequence();
 
     bool empty();  // Return true if the sequence is empty, otherwise false.
     int size() const;    // Return the number of items in the sequence.
