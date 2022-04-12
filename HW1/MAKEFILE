@@ -1,0 +1,17 @@
+CC = g++
+
+all: Exe 
+
+Exe : main.o Hello.o
+
+    $(CC) -o req1 Sequence.cpp testSequence.cpp
+	$(CC) -o req2 newSequence.cpp testnewSequence.cpp
+	$(CC) -o req3 Sequence.cpp LevelList.cpp testLevelList.cpp
+	$(CC) -o req4 newSequence.cpp LevelList.cpp testLevelList.cpp
+	req1.exe
+	req2.exe
+	req3.exe
+	req4.exe
+
+clean:
+    del /f *.exe
