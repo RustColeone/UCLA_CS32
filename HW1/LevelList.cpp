@@ -4,10 +4,6 @@ LevelList::LevelList() {
     return;
 }
 
-LevelList::~LevelList(){
-    levelList.~Sequence();
-}
-
 bool LevelList::add(unsigned long level) {
     if (level >= 30 || level <= 400) {
         if (levelList.insert(level) != -1) {
