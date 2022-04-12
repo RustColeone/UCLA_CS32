@@ -31,7 +31,6 @@ Sequence::~Sequence() {
 	delete sequenceItems;
 }
 
-
 bool Sequence::empty() {
 	return(sequenceSize == 0);
 }

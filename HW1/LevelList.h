@@ -11,8 +11,6 @@ class LevelList
 public:
     LevelList();       // Create an empty level list.
 
-    ~LevelList();
-
     bool add(unsigned long level);
     // If the level is valid (a value from 30 to 400) and the level list
     // has room for it, add it to the level list and return true.
