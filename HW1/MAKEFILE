@@ -1,4 +1,4 @@
-CC = g++
+CC = g32
 
 all: Exe 
 
@@ -8,10 +8,10 @@ Exe : main.o Hello.o
 	$(CC) -o req2 newSequence.cpp testnewSequence.cpp
 	$(CC) -o req3 Sequence.cpp LevelList.cpp testLevelList.cpp
 	$(CC) -o req4 newSequence.cpp LevelList.cpp testLevelList.cpp
-	req1.exe
-	req2.exe
-	req3.exe
-	req4.exe
+	./req1
+	./req2
+	./req3
+	./req4
 
 clean:
     del /f *.exe
