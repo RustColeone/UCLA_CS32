@@ -2,16 +2,22 @@ CC = g32
 
 all: Exe 
 
-Exe : req1.o req2.o req3.o req4.o
+Exe : 
 
+	echo "Compilation Starting"
 	$(CC) -o req1.o Sequence.cpp testSequence.cpp
+	echo "Compilation req1 Successful"
 	$(CC) -o req2.o newSequence.cpp testnewSequence.cpp
+	echo "Compilation req2 Successful"
 	$(CC) -o req3.o Sequence.cpp LevelList.cpp testLevelList.cpp
+	echo "Compilation req3 Successful"
 	$(CC) -o req4.o newSequence.cpp LevelList.cpp testLevelList.cpp
+	echo "Compilation req4 Successful"
 	./req1.o
 	./req2.o
 	./req3.o
 	./req4.o
+	echo "All test complete and runned"
 
 clean:
 	rm *.o
