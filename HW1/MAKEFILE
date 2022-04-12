@@ -2,16 +2,16 @@ CC = g32
 
 all: Exe 
 
-Exe : main.o Hello.o
+Exe : req1.o req2.o req3.o req4.o
 
-	$(CC) -o req1 Sequence.cpp testSequence.cpp
-	$(CC) -o req2 newSequence.cpp testnewSequence.cpp
-	$(CC) -o req3 Sequence.cpp LevelList.cpp testLevelList.cpp
-	$(CC) -o req4 newSequence.cpp LevelList.cpp testLevelList.cpp
-	./req1
-	./req2
-	./req3
-	./req4
+	$(CC) -o req1.o Sequence.cpp testSequence.cpp
+	$(CC) -o req2.o newSequence.cpp testnewSequence.cpp
+	$(CC) -o req3.o Sequence.cpp LevelList.cpp testLevelList.cpp
+	$(CC) -o req4.o newSequence.cpp LevelList.cpp testLevelList.cpp
+	./req1.o
+	./req2.o
+	./req3.o
+	./req4.o
 
 clean:
-	del /f *.exe
+	rm *.o
