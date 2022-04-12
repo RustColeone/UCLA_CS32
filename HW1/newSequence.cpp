@@ -28,7 +28,7 @@ Sequence&Sequence::operator=(const Sequence& incoming){
     return *this;
 }
 Sequence::~Sequence() {
-	delete[] sequenceItems;
+	delete [] sequenceItems;
 }
 
 bool Sequence::empty() {
@@ -68,10 +68,10 @@ int Sequence::insert(const ItemType& value) {
 			for (int j = sequenceSize; j > p; j--) {
 				sequenceItems[j] = sequenceItems[j - 1];
 			}
-			sequenceItems[p] = value;
 			break;
 		}
 	}
+    sequenceItems[p] = value;
 	sequenceSize++;
 	return p;
 }
@@ -98,7 +98,7 @@ int Sequence::remove(const ItemType& value) {
 	int count = 0;
 	for (int i = 0; i < sequenceSize; i++) {
 		if (sequenceItems[i] == value) {
-			erase(i);
+			erase(i--);
 			count++;
 		}
 	}
