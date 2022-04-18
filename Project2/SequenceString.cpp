@@ -1,56 +1,54 @@
 #include "Sequence.h"
 
-
 int subsequence(const Sequence& seq1, const Sequence& seq2) {
-    if (seq1.size() < seq2.size() || seq2.empty()) {
-        return -1;
-    }
-    ItemType a = 0;
-    ItemType b = 0;
-    for (int i = 0; i < seq1.size(); i++) {
-        int j = 0;
-        for ( ; j < seq2.size(); j++) {
-            if (i + j >= seq1.size()) {
-                return -1;
-            }
-            else {
-                seq1.get(i+j, a);
-                seq2.get(j, b);
-                if (a != b) {
-                    break;
-                }
-            }
-        }
-        if (j == seq2.size()) {
-            return i;
-        }
-    }
-    return -1;
+	if (seq1.size() < seq2.size() || seq2.empty()) {
+		return -1;
+	}
+	ItemType a = 0;
+	ItemType b = 0;
+	for (int i = 0; i < seq1.size(); i++) {
+		int j = 0;
+		for (; j < seq2.size(); j++) {
+			if (i + j >= seq1.size()) {
+				return -1;
+			}
+			else {
+				seq1.get(i + j, a);
+				seq2.get(j, b);
+				if (a != b) {
+					break;
+				}
+			}
+		}
+		if (j == seq2.size()) {
+			return i;
+		}
+	}
+	return -1;
 }
 
 void interleave(const Sequence& seq1, const Sequence& seq2, Sequence& result) {
-    int sizeL = seq1.size();
-    int position = 0;
-    Sequence temp;
-    ItemType tempValue = 0;
-    if (seq1.size() < seq2.size()) {
-        sizeL = seq2.size();
-    }
-    for (int i = 0; i < sizeL; i++) {
-        if (i < seq1.size()) {
-            seq1.get(i, tempValue);
-            temp.insert(position, tempValue);
-            position++;
-        }
-        if (i < seq2.size()) {
-            seq2.get(i, tempValue);
-            temp.insert(position, tempValue);
-            position++;
-        }
-    }
-    result = temp;
+	int sizeL = seq1.size();
+	int position = 0;
+	Sequence temp;
+	ItemType tempValue = 0;
+	if (seq1.size() < seq2.size()) {
+		sizeL = seq2.size();
+	}
+	for (int i = 0; i < sizeL; i++) {
+		if (i < seq1.size()) {
+			seq1.get(i, tempValue);
+			temp.insert(position, tempValue);
+			position++;
+		}
+		if (i < seq2.size()) {
+			seq2.get(i, tempValue);
+			temp.insert(position, tempValue);
+			position++;
+		}
+	}
+	result = temp;
 }
-
 
 Sequence::Sequence() {
 	head = new Node();
@@ -61,12 +59,17 @@ Sequence::Sequence(const Sequence& other) {
 	Node* current = head;
 	Node* currentOther = other.head;
 	while (currentOther != nullptr) {
+		Node* temp = current;
 		current->data = currentOther->data;
 		currentOther = currentOther->next;
 		if (currentOther != nullptr) {
 			current->next = new Node();
 			current = current->next;
 		}
+		else {
+			tail = current;
+		}
+		current->prev = temp;
 	}
 	itemCount = other.itemCount;
 }
@@ -81,9 +84,9 @@ Sequence::~Sequence() {
 }
 Sequence& Sequence::operator=(const Sequence& rhs) {
 	if (this != &rhs) {
-		Sequence temp(rhs); 
+		Sequence temp(rhs);
 		swap(temp);
-	} 
+	}
 	return *this;
 }
 
@@ -115,12 +118,21 @@ int Sequence::insert(int pos, const ItemType& value) {
 	Node* temp = new Node();
 	temp->data = value;
 	temp->next = current;
+	temp->prev = prev;
 
 	if (current != prev) {
 		prev->next = temp;
+		if(current != nullptr)
+			current->prev = temp;
+		else {
+			tail = temp;
+		}
 	}
 	else {
 		head = temp;
+		temp->prev = nullptr;
+		if (temp->next != nullptr)
+			temp->next->prev = temp;
 	}
 	return pos;
 
@@ -152,9 +164,11 @@ bool Sequence::erase(int pos) {
 	if (current != prev) {
 		current = prev->next;
 		prev->next = current->next;
+		if(prev->next != nullptr)
+			prev->next->prev = prev;
 	}
 	else {
-		head = current -> next;
+		head = current->next;
 	}
 	delete current;
 	return true;
@@ -184,7 +198,7 @@ bool Sequence::get(int pos, ItemType& value) const {
 	}
 	Node* current = head;
 	int position = 0;
-	while (current != nullptr){
+	while (current != nullptr) {
 		if (position == pos) {
 			value = current->data;
 			return true;
@@ -227,7 +241,30 @@ void Sequence::swap(Sequence& other) {
 	head = other.head;
 	other.head = temp;
 
+	Node* tend = tail;
+	tail = other.tail;
+	other.tail = tend;
+
 	int tempCount = itemCount;
 	itemCount = other.itemCount;
 	other.itemCount = tempCount;
 }
+
+/*
+void Sequence::dump() {
+	Node* current = head;
+	Node* tail = head;
+	while (current != nullptr) {
+		std::cerr << current->data << "->";
+		if (current->next == nullptr)
+			tail = current;
+		current = current->next;
+	}
+	current = tail;
+	std::cout << std::endl;
+	while (current != nullptr) {
+		std::cerr << current->data << "<-";
+		current = current->prev;
+	}
+
+}*/

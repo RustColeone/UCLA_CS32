@@ -2,17 +2,20 @@
 #define SEQUENCE
 
 #include <string>
+using namespace std;
 
-using ItemType = std::string;
+using ItemType = string;
 
 class Sequence
 {
     struct Node {
         ItemType data;
         Node* next;
+        Node* prev;
     };
     int itemCount;
     Node* head;
+    Node* tail;
 
 public:
     Sequence();
@@ -30,10 +33,13 @@ public:
     bool set(int pos, const ItemType& value);
     int find(const ItemType& value) const;
     void swap(Sequence& other);
+
+    //void dump();
 };
 
 
 int subsequence(const Sequence& seq1, const Sequence& seq2);
 void interleave(const Sequence& seq1, const Sequence& seq2, Sequence& result);
+
 
 #endif // !SEQUENCE

@@ -9,9 +9,11 @@ class Sequence
     struct Node {
         ItemType data;
         Node* next;
+        Node* prev;
     };
     int itemCount;
     Node* head;
+    Node* tail;
 
 public:
     Sequence();
@@ -29,6 +31,8 @@ public:
     bool set(int pos, const ItemType& value);
     int find(const ItemType& value) const;
     void swap(Sequence& other);
+
+    //void dump();
 };
 
 
