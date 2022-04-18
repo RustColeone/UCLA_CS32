@@ -1,0 +1,260 @@
+PROJECT 2 REPORT:
+
+No dummy node is used and the node would behave the same if the previous and
+next node was swapped, only the list would be in reverse. The previous of the
+head node and the next of the tail node all points to a null pointer, which 
+is usefull during iteration to determine if the end of node has been reached.
+The linked list is not circularly linked. In order to make some functions easier
+to implement, a variable that indicate the size is added, which determines the
+size of the list making empty() and size() easier to implement.
+
+PSEUDOCODE:
+
+Default Constructor:
+
+Initialize the sequence with nullptrs and set itemCount = 0;
+
+Copy Constructor:
+
+Initialize the sequence with a empty node and set itemCount = 0. 
+If (other.head == nullptr), delete the just created node
+
+Make node pointer current = head and currentOther = other.head.
+	While currentOther not null pointer, propagates each node of both list
+		create new node and copy currentOther value unless reached tail
+		Connect previous and next of the nodes
+copy the itemCount from other
+
+Destructor:
+
+While current node not null pointer, propagates each node of linked list
+	delete this node while not losing reference to next node so propagation
+	can be done as planed
+
+Assignment Operator:
+
+if the rhs and this is not the same, 
+	we make a copy of rhs with copy constructor and swap this with copy
+
+Empty:
+
+	return itemCount == 0
+
+Size:
+
+	return itemCount
+
+Insert at position:
+
+Check position of insert
+	If out of range, return indication that function failed.
+	
+	Increase size by 1
+
+	if empty linked list, new node with the value of insert, make head = tail
+	= this node's address.
+	Otherwise make a new node.
+		Reconnect the next and previous in neighboring node if available.
+		If this node is at the end, make tail = this.
+	return successful
+
+Insert:
+
+Iteration to find the right position to insert the value
+	during iteration, if a node with data >= value is found, insert at this position
+	by calling insert at position with the tracked position and return immediately.
+
+If did not return untill this point, list must be empty or all smaller than value,
+either way, we insert at the end, call Insert at position with position = size;
+
+
+Erase:
+
+	If out of range, return false
+	Decrease item size by 1
+	Iteration on all the nodes untill position reached, 
+		reconnect the neighboring nodes if available,
+		and delete this
+	
+
+Remove:
+		
+	Iteration on all nodes, and try to erase if saw a value equal to this. Keep
+	track of erase to see if we successfully removed something. If we removed 
+	something, keep position unchanged, otherwise move the the next.
+
+Get:
+
+	If in range, iteration on all node and return true,
+	if have not return at this point, that means nothing is found,
+	return false;	
+
+Set:
+	If not in range return false
+	We will again do iterations untill the position, 
+		and set the data to desired value, and return true.
+	Similarlt, if reached this line that means cannot be set, for example, the
+	head is a nullptr, so we return false.
+
+Find:
+	We will again do iterations
+		keep track of the number of nodes with value equal to the one we wished
+		to find. 
+
+Swap:
+	Using temp variables, we swap the pointers head, tail, and the integer count.
+
+Subsequence:
+	If sequence 1 is smaller than sequence 2, than sequence 2 cannot be a subsequence
+	of sequence 1. Hence return -1 immediately. Or if sequence 2 is empty, no need to
+	specify when sequence 1 is empty as that would be redundant.
+
+	Loop through all elements in the seq1,
+	in each loop, make another loop that loop through all elements in seq2
+		If any value is different, breaks the inner loop.
+	If the inner loop is complete without breaking, return
+
+interleave:
+	Make a temp sequence
+	Find and loop the amount of times equal the the amount of element in the
+	larger sequence.
+	Make a variable that remember the position.
+	If seq1 still in range, insert to temp its value and increase position by 1
+	If seq2 still in range, insert to temp its value and increase position by 1
+	make result = temp
+
+
+TESTCASES
+
+Insert when empty, Insert at position > size is tested.
+Empty before any value and Empty after insertion is tested.
+
+
+Get value at some position including -1 and size() is tested.
+
+Erase value outside range and inside range is ested.
+
+Getting the value after reset is tested.
+
+Removing value with multiple existance and value with no existance is tested,
+and is done after swapping.
+
+Getting, setting, and finding is also tested after swapping.
+
+
+subsequence is tested when both is empty, one of them is empty, and sequence 1 is smaller.
+
+All test cases:
+
+void test()
+{
+    Sequence s;
+    Sequence s1;
+    assert(s.empty());
+    s.insert(0, 10);
+    s.insert(0, 20);
+    s.insert(40);
+    assert(s.insert(5, 10) == -1);
+    assert(!s.empty());
+    assert(s.size() == 3);
+    for (int i = 1; i <= 5; i++) {
+        s.insert(40 + i);
+        assert(s.size() == 3 + i);
+    }
+    ItemType x = 999;
+    assert(!s.get(-1, x) && x == 999);
+    assert(!s.get(s.size(), x) && x == 999);
+    assert(s.get(0, x) && x == 20);
+    assert(s.get(1, x) && x == 10);
+    assert(s.get(2, x) && x == 40);
+    assert(!s.erase(8));
+    assert(s.erase(7));
+    assert(!s.get(7, x) && x == 40);
+    assert(s.get(6, x) && x == 44);
+    for (int i = 0; i < 3; i++) {
+        s.insert(369);
+    }
+    s.swap(s1);
+    assert(s.empty());
+    s.swap(s1);
+    s1.insert(19);
+    s.swap(s1);
+    assert(s.get(0, x) && x == 19);
+    assert(s.size() == 1);
+    assert(s1.get(s1.size() - 1, x) && x == 369);
+    assert(s1.find(369) == 7);
+    assert(s1.remove(369) == 3);
+    assert(s1.remove(819) == 0);
+    assert(s1.size() == 7);
+    assert(s1.set(1, 17));
+    assert(s1.get(1, x) && x == 17);
+
+}
+
+void test1() {
+    Sequence s, s1, s2, si1, si2, si3, empty;
+
+    assert(subsequence(s, s1) == -1);
+    interleave(si1, si2, si1);
+    assert(si1.empty());
+
+    unsigned long values [] = {30, 21, 63, 42, 17, 63, 17, 29, 8, 32};
+
+    unsigned long valuesi1[] = { 30, 21, 63, 42, 17, 63 };
+    unsigned long valuesi2[] = { 42, 63, 84, 19 };
+    unsigned long valuesi3[] = { 30, 42, 21, 63, 63, 84, 42, 19, 17, 63 };
+    for (int i = 0; i < 10; i++) {
+        s.insert(i, values[i]);
+        si3.insert(i, valuesi3[i]);
+    }
+    assert(subsequence(s, s1) == -1);
+    assert(subsequence(s1, s) == -1);
+    //s.dump();
+    for (int i = 0; i < 6; i++) {
+        si1.insert(i, valuesi1[i]);
+    }
+    for (int i = 0; i < 4; i++) {
+        si2.insert(i, valuesi2[i]);
+    }
+
+    s1.insert(0, 63);
+    s1.insert(1, 17);
+    s1.insert(2, 29);
+    assert(subsequence(s, s1) == 5);
+    assert(subsequence(s1, s) == -1);
+
+    s2.insert(0, 21);
+    s2.insert(1, 63);
+    s2.insert(2, 42);
+    s2.insert(3, 17);
+    assert(subsequence(s, s2) == 1);
+
+    interleave(si1, si2, si1);
+    for (int i = 0; i < 10; i++) {
+        ItemType x1 = -1;
+        ItemType x2 = -1;
+        si1.get(i, x1);
+        si3.get(i, x2);
+        assert(x1 == x2);
+    }
+
+    interleave(si1, empty, si3);
+    for (int i = 0; i < 10; i++) {
+        ItemType x1 = -1;
+        ItemType x2 = -1;
+        si1.get(i, x1);
+        si3.get(i, x2);
+        assert(x1 == x2);
+    }
+    interleave(empty, si1, si3);
+    for (int i = 0; i < 10; i++) {
+        ItemType x1 = -1;
+        ItemType x2 = -1;
+        si1.get(i, x1);
+        si3.get(i, x2);
+        assert(x1 == x2);
+    }
+
+
+}
+

@@ -51,11 +51,18 @@ void interleave(const Sequence& seq1, const Sequence& seq2, Sequence& result) {
 }
 
 Sequence::Sequence() {
-	head = new Node();
+	head = nullptr;
+	tail = head;
 	itemCount = 0;
 }
 Sequence::Sequence(const Sequence& other) {
+
 	head = new Node();
+	if (other.head == nullptr) {
+		delete head;
+		head = nullptr;
+	}
+	tail = head;
 	Node* current = head;
 	Node* currentOther = other.head;
 	while (currentOther != nullptr) {
@@ -100,8 +107,10 @@ int Sequence::insert(int pos, const ItemType& value) {
 	if (pos < 0 || pos > itemCount) {
 		return -1;
 	}
-	if (itemCount == 0) {
+	if (head == nullptr) {
+		head = new Node();
 		head->data = value;
+		tail = head;
 		itemCount++;
 		return 0;
 	}
@@ -249,22 +258,3 @@ void Sequence::swap(Sequence& other) {
 	itemCount = other.itemCount;
 	other.itemCount = tempCount;
 }
-
-/*
-void Sequence::dump() {
-	Node* current = head;
-	Node* tail = head;
-	while (current != nullptr) {
-		std::cerr << current->data << "->";
-		if (current->next == nullptr)
-			tail = current;
-		current = current->next;
-	}
-	current = tail;
-	std::cout << std::endl;
-	while (current != nullptr) {
-		std::cerr << current->data << "<-";
-		current = current->prev;
-	}
-
-}*/
