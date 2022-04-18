@@ -33,4 +33,7 @@ public:
 };
 
 
+int subsequence(const Sequence& seq1, const Sequence& seq2);
+void interleave(const Sequence& seq1, const Sequence& seq2, Sequence& result);
+
 #endif // !SEQUENCE

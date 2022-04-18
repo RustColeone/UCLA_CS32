@@ -1,5 +1,55 @@
 #include "Sequence.h"
 
+int subsequence(const Sequence& seq1, const Sequence& seq2) {
+    if (seq1.size() < seq2.size() || seq2.empty()) {
+        return -1;
+    }
+    ItemType a = 0;
+    ItemType b = 0;
+    for (int i = 0; i < seq1.size(); i++) {
+        int j = 0;
+        for ( ; j < seq2.size(); j++) {
+            if (i + j >= seq1.size()) {
+                return -1;
+            }
+            else {
+                seq1.get(i+j, a);
+                seq2.get(j, b);
+                if (a != b) {
+                    break;
+                }
+            }
+        }
+        if (j == seq2.size()) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void interleave(const Sequence& seq1, const Sequence& seq2, Sequence& result) {
+    int sizeL = seq1.size();
+    int position = 0;
+    Sequence temp;
+    ItemType tempValue = 0;
+    if (seq1.size() < seq2.size()) {
+        sizeL = seq2.size();
+    }
+    for (int i = 0; i < sizeL; i++) {
+        if (i < seq1.size()) {
+            seq1.get(i, tempValue);
+            temp.insert(position, tempValue);
+            position++;
+        }
+        if (i < seq2.size()) {
+            seq2.get(i, tempValue);
+            temp.insert(position, tempValue);
+            position++;
+        }
+    }
+    result = temp;
+}
+
 Sequence::Sequence() {
 	head = new Node();
 	itemCount = 0;
