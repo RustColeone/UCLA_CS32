@@ -23,7 +23,8 @@ Sequence::Sequence(const Sequence& other) {
 }
 Sequence&Sequence::operator=(const Sequence& incoming){
 	if (this != &incoming) {
-		return * new Sequence(incoming);
+		Sequence temp = Sequence(incoming);
+		swap(temp);
 	}
     return *this;
 }
@@ -39,7 +40,7 @@ int Sequence::size() const {
 }
 int Sequence::insert(int pos, const ItemType& value) {
 
-    if(sequenceSize >= max){
+    if(sequenceSize >= max || pos > sequenceSize || pos < 0){
         return -1;
     }
     else if(sequenceSize == 0){

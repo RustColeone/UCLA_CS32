@@ -3,14 +3,14 @@
 Sequence::Sequence() {
 	sequenceSize = 0;
 }
-bool Sequence::empty() {
+bool Sequence::empty() const {
 	return(sequenceSize == 0);
 }
 int Sequence::size() const {
 	return sequenceSize;
 }
 int Sequence::insert(int pos, const ItemType& value) {
-	if (pos < 0 || pos > sequenceSize) {
+	if (pos < 0 || pos >= sequenceSize) {
 		return -1;
 	}
 	for (int j = sequenceSize; j > pos; j--) {
@@ -87,7 +87,7 @@ bool Sequence::set(int pos, const ItemType& value) {
 	return true;
 }
 
-int Sequence::find(const ItemType& value) {
+int Sequence::find(const ItemType& value) const {
 	for (int i = 0; i < sequenceSize; i++) {
 		if (sequenceItems[i] == value) {
 			return i;

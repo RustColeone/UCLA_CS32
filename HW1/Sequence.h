@@ -11,7 +11,7 @@ class Sequence
 
 public:
     Sequence();    // Create an empty sequence (i.e., one with no items)
-    bool empty();  // Return true if the sequence is empty, otherwise false.
+    bool empty() const;  // Return true if the sequence is empty, otherwise false.
     int size() const;    // Return the number of items in the sequence.
     int insert(int pos, const ItemType& value);
     // Insert value into the sequence so that it becomes the item at
@@ -53,7 +53,7 @@ public:
     // sequence with value and return true.  Otherwise, leave the sequence
     // unchanged and return false.
 
-    int find(const ItemType& value);
+    int find(const ItemType& value) const;
     // Let p be the smallest integer such that value == the item at
     // position p in the sequence; if no such item exists, let p be -1.
     // Return p.
