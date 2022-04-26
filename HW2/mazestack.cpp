@@ -82,7 +82,7 @@ bool pathExists(char maze[][10], int sr, int sc, int er, int ec) {
 
         coordStack.pop();
 
-        if (current.r() == endCoord.r() && current.c() == endCoord.c()) {
+        if (r == er && c == ec) {
             //Since they are at the same coordinate, that means a solution
             return true;
         }

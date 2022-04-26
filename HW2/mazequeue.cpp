@@ -50,7 +50,7 @@ bool pathExists(char maze[][10], int sr, int sc, int er, int ec) {
     queue<Coord> coordQueue;
     Coord startCoord(sr, sc);
     coordQueue.push(startCoord);
-    Coord endCoord = Coord(er, ec);
+    //Coord endCoord = Coord(er, ec);
 
     
     //Maze [which row] [which colum];
