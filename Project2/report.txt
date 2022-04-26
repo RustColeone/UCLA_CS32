@@ -126,9 +126,10 @@ interleave:
 
 TESTCASES
 
+Similar fashion is done for both string and long
+
 Insert when empty, Insert at position > size is tested.
 Empty before any value and Empty after insertion is tested.
-
 
 Get value at some position including -1 and size() is tested.
 
@@ -141,10 +142,18 @@ and is done after swapping.
 
 Getting, setting, and finding is also tested after swapping.
 
-
 subsequence is tested when both is empty, one of them is empty, and sequence 1 is smaller.
 
+interleave is also tested either/both empty
+
 All test cases:
+
+
+
+#include "Sequence.h"
+#include <iostream>
+#include <cassert>
+using namespace std;
 
 void test()
 {
@@ -182,13 +191,14 @@ void test()
     assert(s.get(0, x) && x == 19);
     assert(s.size() == 1);
     assert(s1.get(s1.size() - 1, x) && x == 369);
+    s = s1;
+    assert(s.find(369) == 7);
     assert(s1.find(369) == 7);
     assert(s1.remove(369) == 3);
     assert(s1.remove(819) == 0);
     assert(s1.size() == 7);
     assert(s1.set(1, 17));
     assert(s1.get(1, x) && x == 17);
-
 }
 
 void test1() {
@@ -223,6 +233,10 @@ void test1() {
     assert(subsequence(s, s1) == 5);
     assert(subsequence(s1, s) == -1);
 
+    assert(subsequence(s1, empty) == -1);
+    assert(subsequence(empty, s) == -1);
+    assert(subsequence(empty, empty) == -1);
+
     s2.insert(0, 21);
     s2.insert(1, 63);
     s2.insert(2, 42);
@@ -255,6 +269,14 @@ void test1() {
         assert(x1 == x2);
     }
 
+    interleave(empty, empty, si3);
+    assert(si3.empty());
 
 }
 
+int main()
+{
+    test();
+    test1();
+    cout << "Passed all tests" << endl;
+}

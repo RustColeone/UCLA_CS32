@@ -1,0 +1,50 @@
+Question 2 HW2:
+
+Popped off at:
+
+01) r = 5, c = 6
+02) r = 6, c = 6
+03) r = 4, c = 6
+04) r = 4, c = 7
+05) r = 4, c = 8
+06) r = 3, c = 8
+07) r = 2, c = 8
+08) r = 1, c = 8
+09) r = 1, c = 7
+10) r = 3, c = 6
+11) r = 5, c = 5
+12) r = 5, c = 4
+
+Question 4 HW2:
+
+Popped off at:
+
+01) r = 5, c = 6
+02) r = 5, c = 5
+03) r = 4, c = 6
+04) r = 6, c = 6
+05) r = 5, c = 4
+06) r = 3, c = 6
+07) r = 4, c = 7
+08) r = 5, c = 3
+09) r = 4, c = 4
+10) r = 4, c = 8
+11) r = 5, c = 2
+12) r = 3, c = 4
+
+The process of stack and queue are different. Stack process in a
+Last Come First Served manner, while Queue process in a First
+Come First Served manner. Making their ordering different.
+
+As we can observer from in Q2 we saw that the coordinate always
+continues from the last node it has visited. This behaves like a
+DFS because it only starts processing a next branch untill the
+current branch reached a end. Question 4 behave essentially like
+a BFS as it explors each branch simutaneously. That's why we can
+observe this circular fashion. The numbers on r and c seems to
+be more random in Queue than Stack, that is because our maze has
+only 4 direction perpendicular to each other. Hence when moving
+in a DFS fashion (in this case, refering to Stack), it is common
+that they continue in a straight line. While in a BFS fashion 
+(Queue), once it knows a branch is not blocked, in moves on to
+the next branch before. 

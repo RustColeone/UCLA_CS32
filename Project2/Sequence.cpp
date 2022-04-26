@@ -4,8 +4,8 @@ int subsequence(const Sequence& seq1, const Sequence& seq2) {
 	if (seq1.size() < seq2.size() || seq2.empty()) {
 		return -1;
 	}
-	ItemType a = 0;
-	ItemType b = 0;
+	ItemType a;
+	ItemType b;
 	for (int i = 0; i < seq1.size(); i++) {
 		int j = 0;
 		for (; j < seq2.size(); j++) {
@@ -31,7 +31,7 @@ void interleave(const Sequence& seq1, const Sequence& seq2, Sequence& result) {
 	int sizeL = seq1.size();
 	int position = 0;
 	Sequence temp;
-	ItemType tempValue = 0;
+	ItemType tempValue;
 	if (seq1.size() < seq2.size()) {
 		sizeL = seq2.size();
 	}
