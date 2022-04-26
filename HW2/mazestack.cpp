@@ -50,7 +50,7 @@ bool pathExists(char maze[][10], int sr, int sc, int er, int ec) {
     stack<Coord> coordStack;
     Coord startCoord(sr, sc);
     coordStack.push(startCoord);
-    Coord endCoord = Coord(er, ec);
+    //Coord endCoord = Coord(er, ec);
 
     //Maze [which row] [which colum];
     maze[sr][sc] = '-';
