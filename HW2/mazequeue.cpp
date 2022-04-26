@@ -60,7 +60,6 @@ bool pathExists(char maze[][10], int sr, int sc, int er, int ec) {
 
         Coord current = coordQueue.front();
         int r = current.r(), c = current.c();
-        char currentMaze = maze[r][c];
 
         //For testing only
         /*
