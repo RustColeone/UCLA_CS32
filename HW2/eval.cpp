@@ -2,7 +2,7 @@
 #include <string>
 #include <stack>
 #include <cassert>
-using namespace std; 
+using namespace std;
 
 int evaluate(string infix, string& postfix, bool& result);
 // Evaluates a boolean expression
@@ -15,14 +15,14 @@ int evaluate(string infix, string& postfix, bool& result);
 
 int importance(char c) {
     switch (c) {
-        case '!':
-            return 3;
-        case '&':
-            return 2;
-        case '|':
-            return 1;
-        default:
-            return 4;
+    case '!':
+        return 3;
+    case '&':
+        return 2;
+    case '|':
+        return 1;
+    default:
+        return 4;
     }
 }
 
@@ -37,39 +37,39 @@ bool validInfix(string infixExpression) {
     char lastChar = '/';
     for (char& c : infixExpression) {
         switch (c) {
-            case ' ':
-                break;
-            case '(':
-                if (isalpha(lastChar) || lastChar == ')')
-                    return false;
-                infixStr += c;
-                lastChar = c;
-                break;
-            case ')':
-                if (!isalpha(lastChar) && lastChar != ')')
-                    return false;
-                infixStr += c;
-                lastChar = c;
-                break;
-            case '|':
-            case '&':
-                if (!isalpha(lastChar) && lastChar != ')')
-                    return false;
-                infixStr += c;
-                lastChar = c;
-                break;
-            case '!':
-                if (isalpha(lastChar) || lastChar == ')')
-                    return false;
-                infixStr += c;
-                lastChar = c;
-                break;
-            default:
-                if (!isalpha(c) || isalpha(lastChar) || lastChar == ')')
-                    return false;
-                infixStr += c;
-                lastChar = c;
-                break;
+        case ' ':
+            break;
+        case '(':
+            if (isalpha(lastChar) || lastChar == ')')
+                return false;
+            infixStr += c;
+            lastChar = c;
+            break;
+        case ')':
+            if (!isalpha(lastChar) && lastChar != ')')
+                return false;
+            infixStr += c;
+            lastChar = c;
+            break;
+        case '|':
+        case '&':
+            if (!isalpha(lastChar) && lastChar != ')')
+                return false;
+            infixStr += c;
+            lastChar = c;
+            break;
+        case '!':
+            if (isalpha(lastChar) || lastChar == ')')
+                return false;
+            infixStr += c;
+            lastChar = c;
+            break;
+        default:
+            if (!isalpha(c) || isalpha(lastChar) || lastChar == ')')
+                return false;
+            infixStr += c;
+            lastChar = c;
+            break;
         }
     }
 
@@ -114,34 +114,34 @@ int evaluate(string infix, string& postfix, bool& result)
 
     for (char& c : infix) {
         switch (c) {
-            case ' ':
-                break;
-            case 'T':
-            case 'F':
-                postfix += c;
-                break;
-            case '(':
-                temp.push('(');
-                break;
-            case ')':
-                while (temp.top() != '/' && temp.top() != '(') {
-                    postfix += temp.top();
-                    temp.pop();
-                }
+        case ' ':
+            break;
+        case 'T':
+        case 'F':
+            postfix += c;
+            break;
+        case '(':
+            temp.push('(');
+            break;
+        case ')':
+            while (temp.top() != '/' && temp.top() != '(') {
+                postfix += temp.top();
                 temp.pop();
-                break;
-            case '&':
-            case '|':
-            case '!':
-                while (temp.top() != '/' && temp.top() != '(' && importance(c) <= importance(temp.top())) {
-                    postfix += temp.top();
-                    temp.pop();
-                }
-                temp.push(c);
-                break;
-            default:
-                break;
-                //return 1;
+            }
+            temp.pop();
+            break;
+        case '&':
+        case '|':
+        case '!':
+            while (temp.top() != '/' && temp.top() != '(' && importance(c) <= importance(temp.top())) {
+                postfix += temp.top();
+                temp.pop();
+            }
+            temp.push(c);
+            break;
+        default:
+            break;
+            //return 1;
         }
         lastChar = c;
     }
@@ -160,9 +160,17 @@ int evaluate(string infix, string& postfix, bool& result)
             eval.push(0);
         }
         else {
-            int val1 = eval.top();
-            eval.pop();
+            if (eval.size() == 1) {
+                if (c == '!') {
+                    int val = eval.top();
+                    eval.pop();
+                    eval.push(-val + 1);
+                }
+                break;
+            }
             int val2 = eval.top();
+            eval.pop();
+            int val1 = eval.top();
             eval.pop();
             switch (c) {
                 case '|':
@@ -173,7 +181,7 @@ int evaluate(string infix, string& postfix, bool& result)
                     break;
                 default:
                     eval.push(val1);
-                    eval.push(val2);
+                    eval.push(-val2 + 1);
             }
         }
     }
@@ -187,6 +195,17 @@ int main()
 {
     string pf;
     bool answer;
+
+    assert(evaluate("T", pf, answer) == 0 && answer);
+    assert(evaluate("(F)", pf, answer) == 0 && !answer);
+    assert(evaluate("T&(F)", pf, answer) == 0 && !answer);
+    assert(evaluate("T & !F", pf, answer) == 0 && answer);
+    assert(evaluate("!(F|T)", pf, answer) == 0 && !answer);
+    assert(evaluate("!F|T", pf, answer) == 0 && answer);
+    assert(evaluate("T|F&F", pf, answer) == 0 && answer);
+    assert(evaluate("T&!(F|T&T|F)|!!!(F&T&F)", pf, answer) == 0 && answer);
+
+
     assert(evaluate("T| F", pf, answer) == 0 && pf == "TF|" && answer);
     assert(evaluate("T|", pf, answer) == 1);
     assert(evaluate("F F", pf, answer) == 1);
