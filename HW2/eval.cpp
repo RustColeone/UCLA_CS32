@@ -160,16 +160,9 @@ int evaluate(string infix, string& postfix, bool& result)
             eval.push(0);
         }
         else {
-            if (eval.size() == 1) {
-                if (c == '!') {
-                    int val = eval.top();
-                    eval.pop();
-                    eval.push(-val + 1);
-                }
-                break;
-            }
             int val2 = eval.top();
-            eval.pop();
+            if(eval.size() != 1)
+                eval.pop();
             int val1 = eval.top();
             eval.pop();
             switch (c) {
@@ -204,6 +197,7 @@ int main()
     assert(evaluate("!F|T", pf, answer) == 0 && answer);
     assert(evaluate("T|F&F", pf, answer) == 0 && answer);
     assert(evaluate("T&!(F|T&T|F)|!!!(F&T&F)", pf, answer) == 0 && answer);
+    assert(evaluate("!(T&!(F|T&T|F)|!!!(F&T&F))", pf, answer) == 0 && !answer);
 
 
     assert(evaluate("T| F", pf, answer) == 0 && pf == "TF|" && answer);
