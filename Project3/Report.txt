@@ -1,0 +1,170 @@
+Report For Project 3 BattleShip, Leo Yan 305337439
+
+
+Introduction
+
+
+
+Using C++, a classic digital game called BattleShip is created for Project 3.
+The code includes 3 basic AI for player to play with each with different way
+of finding the next spot to hit. The code generates a board for each player
+where the player is prompted to place their battleships. When each player is
+done placing their battleship the game will start once they are both ready.
+
+Three testing cases were given where we would be mainly focusing on having
+the AI's playing against each other and recording the result to see if the
+result is indeed what we expected from the performance of the AI.
+
+The game proceeds by guessing and shooting a spot, when one of the player had
+all parts of their opponent's ships sunked, the player wins the game.
+
+
+
+Data Structure
+
+
+
+For simplicity, a two dimension vector of characters were used to store the
+data of the board, when a ship is placed on the board, the certain characters
+will be changed to the characters representing that board.
+
+A two dimension vector is a vector of vectors, that means the vectors in the
+object represents all the data of a row and each data of that row is a sub-
+member of the coloum. 
+
+When a player shoots, the character on that board with the corresponding
+location will be marked with a o or X depending on the nature of the block
+(ocean or ship respectively) which would be normally hidden from the player,
+Unless the player is viewing their own board or both player are AIs, in such
+case the observer has the access to view both player's board.
+
+
+
+GoodPlayer Strategies
+
+
+
+The good player is essentially the same as the mediocre player, only slight
+improvements would need to be made. 
+
+The mediocre player's search range was too large, in the sense that it would
+likely hit another ship yet does not follow it. This is improved by lower
+the range from 4 to 1, so that it only searches the blocks closet to it, and
+this would repeat every time it hit something instead of only doing so when
+it first hit a ship blindly. So it essentially became a Breadth First Search,
+only that we were selecting randomly. Since where the routes that is not a
+ship is not continued, less time was wasted.
+
+Another modification is that when randomly choosing row and coloum, when 
+r = 0 or c = 0, there's a 25% chance of the GoodPlayer to re-select. Since it
+is unlikely for a player (who doesn't know this already) to place their ships
+all touching the side. This can slightly increase the likelyhood of hitting
+a ship.
+
+
+Similar to mediocre player, on very odd occasions, placement will fail for 50
+time, at which point a backup plan will start. Even with this backup plan
+there is a chance that placement will fail. In that case we can always fall 
+back to awful player's placement. However this is not further implemented.
+
+
+
+Pseudocodes
+
+
+
+In this section I will demonstrate some important algorithms in the project.
+
+==MediocrePlayer place ship by entering a recursive helper.==
+The recursive helper is entered for a maximum of 50 times, which will be
+abandoned at that point.
+
+In the placementHelper{
+	On ending conditions, 
+	1) shipID out of range, 
+		return true
+	2) no more ships needs to be placed
+		return true
+	3) tested impossible to fit all ships by calculating area
+		return false
+	4) all ships placed
+		return true
+	
+	record the result of placementHelper trying to place the next ship
+	of this one. (Recursive step starting from small to larger)
+	Generally placing the longest ship first makes things easier.
+
+	If the next ship was successfully placed,
+	We iterate through all the points on the board trying to place the
+	current ship horizontally and vertically at random order
+
+	If placement successful, return true
+	else, unplace and delete everything and return false
+
+}
+
+The recursive helper might not be required we we can incoorporate count 
+into the recursion, however this is a lot easier for Resetting and restarting
+hence this method is applied.
+
+==MediocrePlayer's attacking pattern were as spec.pdf described.==
+
+GoodPlayer uses the exact same function as this one, other algorithms render
+the GoodPlayer predictable, in which case became easier to beat than the
+mediocre player for human player after some rounds.
+
+==GoodPlayer Attacking==
+
+Recommending Attack is also similar to MediocrePlayer, however, the results
+were recorded differently.
+
+recordAttackResult{
+	Note this cell that was attacked so repeating can be avoided.
+	if we hit a ship we take note of all blocks 1 block away.
+}
+This is simple but effective.
+Initially a better algorithm is used, the program would select all odd numbered
+points and pick from those randomly untill a ship is hit. However this somehow 
+reduced the winning rate for GoodPlayer, and so was removed.
+
+
+Statistics
+
+	Good Player VS Mediocre Player
+Trial 0	9	VS	1
+Trial 1	7	VS	2
+Trial 2	5	VS	5
+Trial 3	6	VS	2
+Trial 4	8	VS	0
+Trial 5	7	VS	3
+Trial 6	6	VS	4
+Trial 7	9	VS	1
+Trial 8	7	VS	3
+Trial 9	7	VS	3
+
+On test of 50 runs: 35 VS 14
+
+We can see that there's generally a larger chance for Good Player to win the game.
+Similarly for Awful and Mediocre Player.
+
+    Aweful Player VS Mediocre Player
+Trial 0	0	VS	8
+Trial 1	1	VS	9
+Trial 2	3	VS	5
+Trial 3	1	VS	9
+Trial 4	2	VS	8
+
+On test of 50 runs: 2 VS 48
+
+
+
+
+
+
+
+
+
+
+
+
+

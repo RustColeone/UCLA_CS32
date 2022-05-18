@@ -1,14 +1,14 @@
 // Return the number of ways that all n2 elements of a2 appear
-	  // in the n1 element array a1 in the same order (though not
-	  // necessarily consecutively).  The empty sequence appears in a
-	  // sequence of length n1 in 1 way, even if n1 is 0.
-	  // For example, if a1 is the 7 element array
-	  //    "merida" "tiana" "raya" "belle" "tiana" "raya" "moana"
-	  // then for this value of a2            the function must return
-	  //    "merida" "belle" "raya"                      1
-	  //    "merida" "raya" "moana"                      2
-	  //    "belle" "merida" "raya"                      0
-	  //    "tiana" "raya" "moana"                       3
+  // in the n1 element array a1 in the same order (though not
+  // necessarily consecutively).  The empty sequence appears in a
+  // sequence of length n1 in 1 way, even if n1 is 0.
+  // For example, if a1 is the 7 element array
+  //    "merida" "tiana" "raya" "belle" "tiana" "raya" "moana"
+  // then for this value of a2            the function must return
+  //    "merida" "belle" "raya"                      1
+  //    "merida" "raya" "moana"                      2
+  //    "belle" "merida" "raya"                      0
+  //    "tiana" "raya" "moana"                       3
 int numberOfTimesHas(const string a1[], int n1, const string a2[], int n2)
 {
 	if (n2 <= 0)

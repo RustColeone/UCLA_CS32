@@ -1,4 +1,3 @@
-
 // Return false if the somePredicate function returns true for at
 // least one of the array elements; return true otherwise.
 bool allFalse(const string a[], int n)
@@ -19,7 +18,7 @@ int countFalse(const string a[], int n)
     if (n <= 0)
         return 0;
     int counted = countFalse(a + 1, n - 1);
-    if (somePredicate(*a)) {
+    if (!somePredicate(*a)) {
         return 1 + counted;
     }
     return counted;
@@ -32,9 +31,9 @@ int firstFalse(const string a[], int n)
 {
     if (n <= 0)
         return -1;
-    int position = firstFalse(a+1,n-1);
+    int position = firstFalse(a + 1, n - 1);
     if (position == -1) {
-        if (somePredict(*a)) {
+        if (somePredicate(*a)) {
             //if nothing encountered continue
             return -1;
         }
@@ -43,7 +42,7 @@ int firstFalse(const string a[], int n)
             return 0;
         }
     }
-    if (somePredict(*a)) {
+    if (somePredicate(*a)) {
         //if we did not encounter a false but did in the past, count up
         return position + 1;
     }
@@ -59,11 +58,12 @@ int positionOfLeast(const string a[], int n)
 {
     if (n <= 0)
         return -1;
-    else if (n == 1)
+
+    if (n == 1)
         return 0;
     //BST is king!
     int minL = positionOfLeast(a, n / 2);
-    int minR = positionOfLeast(a + n/2, n - n / 2) + n / 2;
+    int minR = positionOfLeast(a + n / 2, n - n / 2) + n / 2;
     if (a[minL] < a[minR]) {
         return minL;
     }
@@ -89,7 +89,7 @@ int positionOfLeast(const string a[], int n)
 //    "merida" "belle" "belle"
 bool has(const string a1[], int n1, const string a2[], int n2)
 {
-    if (n2 == 0) {
+    if (n2 <= 0) {
         return true;
     }
     if (n1 < n2) {
@@ -100,4 +100,3 @@ bool has(const string a1[], int n1, const string a2[], int n2)
     }
     return has(a1 + 1, n1 - 1, a2, n2);
 }
-

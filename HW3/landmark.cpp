@@ -37,9 +37,3 @@ public:
     virtual string icon() const { return "H"; }
     virtual ~Hospital() { cout << "Destroying the hospital " + this->name() + "." << endl; }
 };
-
-void display(const Landmark* lm)
-{
-    cout << "Display a " << lm->color() << " " << lm->icon() << " icon for "
-        << lm->name() << "." << endl;
-}
