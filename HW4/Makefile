@@ -11,7 +11,7 @@ Exe :
 	$(CC) -o badVector.o badvector.cpp
 	$(CC) -o listAll.o listall.cpp
 	$(CC) -o RunSequence.o Sequence.cpp runSequence.cpp
-	$(CC) -o sort.o Sort.cpp
+	g32fast -o sorts.o sorts.cpp
 
 	./evenlist.o
 	./evenVector.o
@@ -19,7 +19,7 @@ Exe :
 	./badVector.o
 	./listAll.o
 	./RunSequence.o
-	./sort.o
+	./sorts.o
 
 	echo "All test complete and runned"
 

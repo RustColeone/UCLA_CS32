@@ -4,7 +4,7 @@ g++ -o badList.exe badlist.cpp
 g++ -o badVector.exe badvector.cpp
 g++ -o listAll.exe listall.cpp
 g++ -o RunSequence.exe Sequence.cpp runSequence.cpp
-g++ -o sort.exe Sort.cpp
+g++ -o sort.exe sort.cpp
 
 evenlist.exe
 evenVector.exe
