@@ -191,7 +191,7 @@ void BoardImpl::display(bool shotsOnly) const
                     cout << board[r][c];
                 }
                 else {
-                    cout << " ";
+                    cout << ".";
                 }
             }
             else {

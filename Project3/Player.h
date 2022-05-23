@@ -9,9 +9,9 @@ class Game;
 
 class Player
 {
-public:
+  public:
     Player(std::string nm, const Game& g)
-        : m_name(nm), m_game(g)
+     : m_name(nm), m_game(g)
     {}
 
     virtual ~Player() {}
@@ -24,13 +24,13 @@ public:
     virtual bool placeShips(Board& b) = 0;
     virtual Point recommendAttack() = 0;
     virtual void recordAttackResult(Point p, bool validShot, bool shotHit,
-        bool shipDestroyed, int shipId) = 0;
+                                        bool shipDestroyed, int shipId) = 0;
     virtual void recordAttackByOpponent(Point p) = 0;
-    // We prevent any kind of Player object from being copied or assigned
+      // We prevent any kind of Player object from being copied or assigned
     Player(const Player&) = delete;
     Player& operator=(const Player&) = delete;
 
-private:
+  private:
     std::string m_name;
     const Game& m_game;
 };

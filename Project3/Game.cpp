@@ -72,7 +72,12 @@ void waitForEnter()
 
 GameImpl::GameImpl(int nRows, int nCols)
 {
-    // This compiles but may not be correct
+    if (nRows > MAXROWS) {
+        nRows = MAXROWS;
+    }
+    if (nCols > MAXCOLS) {
+        nCols = MAXCOLS;
+    }
     m_rows = nRows;
     m_cols = nCols;
 }
@@ -272,19 +277,24 @@ Player* GameImpl::play(Player* p1, Player* p2, Board& b1, Board& b2, bool should
 
     //Winning
     //both are human, but p1 is the winner
+    Player* loser = winner;
     cout << endl;
     cout << "Results are OUT!" << endl;
     if (Player2Ships == 0 && Player1Ships > 0) {
         winner = p1;
-
+        loser = p2;
         cout << "Winner's Board" << endl;
-        b1.display(false);
+        if (loser->isHuman()) {
+            b1.display(false);
+        }
     }
     else if (Player1Ships == 0 && Player2Ships > 0) {
         winner = p2;
-
+        loser = p1;
         cout << "Winner's Board" << endl;
-        b2.display(false);
+        if (loser->isHuman()) {
+            b2.display(false);
+        }
     }
     cout << winner->name() << " wins!" << endl;
     ships.clear();

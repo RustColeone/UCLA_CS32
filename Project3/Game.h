@@ -10,7 +10,7 @@ class GameImpl;
 
 class Game
 {
-public:
+  public:
     Game(int nRows, int nCols);
     ~Game();
     int rows() const;
@@ -23,14 +23,12 @@ public:
     char shipSymbol(int shipId) const;
     std::string shipName(int shipId) const;
     Player* play(Player* p1, Player* p2, bool shouldPause = true);
-    // We prevent a Game object from being copied or assigned
+      // We prevent a Game object from being copied or assigned
     Game(const Game&) = delete;
     Game& operator=(const Game&) = delete;
 
-private:
+  private:
     GameImpl* m_impl;
-    int m_rows;
-    int m_cols;
 };
 
 #endif // GAME_INCLUDED
