@@ -1,0 +1,31 @@
+#1 When the size is increased to a certain point, the pointers has been re-assigned
+to a new location, now when we try to access p and increment it, it is no-longer in
+the correct position, and so creates an error. 
+
+#3 The insert function uses the operator > for comparison, which is not defined in
+the Coord class, hence two Coord objects cannot be compated, while the two parameter
+insert do not need this.
+
+#4 Without any global variables we cannot keep track of the previous section of the
+tree we are currently traversing. Hence we can either introduce a global variable or
+we can make a recursion of the new listAll, and under the constrains we have to use
+a two-variable overloaded recursion function inorder to record the track of path we
+traversed.
+
+#5 It is obvious that each operation is O(1) and each Loop is O(N), so three nested
+loop would lead to O(N^3) when we ignored all the constants.
+
+When such line is introduced, we have reduced the amount of time we need to traverse
+through the inner node, so we could said that we have an N/2 loop, with other lines
+remaining the same and dropping the constants, the complexity is simplified back to
+O(N^3).
+
+#6 We can see that for the get() and insert function we have a complexity of N at
+the same layer of eachother, this means that added together their complexity is just
+2N, and they are within a for loop, so N*2N. There's also some lines with complexity
+of 1 which is lower than the highest power so we dropped them along with constants
+and coefficients. Hence, the complexity is O(N^2).
+
+Since insertBefore is a function of complexity O(1) and there's only but two loop
+and they are not nested. We observe that the rest of the lines all have the same
+complexity of O(1). Hence the overall complexity is O(N).
