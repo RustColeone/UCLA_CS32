@@ -1,12 +1,19 @@
 void removeBad(list<Restaurant*>& li)
 {
-	for (auto i = li.begin(); i != li.end(); i++)
+    auto i = li.begin();
+	auto last = li.begin();
+	while (i != li.end())
 	{
 		if ((*i)->stars() <= 2)
 		{
-			delete* i;
-			i = li.erase(i);
-			i--;
+            delete * i;
+			li.erase(i);
+			i = last;
+			//i--;
+		}
+		else {
+			last = i;
+			i++;
 		}
 	}
 }

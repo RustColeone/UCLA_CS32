@@ -22,6 +22,7 @@ private:
 // the same as in the original list.
 void removeBad(list<Restaurant*>& li)
 {
+    /*
 	for (auto i = li.begin(); i != li.end(); i++)
 	{
 		if ((*i)->stars() <= 2)
@@ -29,6 +30,22 @@ void removeBad(list<Restaurant*>& li)
 			delete* i;
 			i = li.erase(i);
 			i--;
+		}
+	}*/
+    auto i = li.begin();
+	auto last = li.begin();
+	while (i != li.end())
+	{
+		if ((*i)->stars() <= 2)
+		{
+            delete * i;
+			li.erase(i);
+			i = last;
+			//i--;
+		}
+		else {
+			last = i;
+			i++;
 		}
 	}
 }

@@ -12,4 +12,4 @@ badList.exe
 badVector.exe
 listAll.exe
 RunSequence.exe
-sort.exe
+sorts.exe

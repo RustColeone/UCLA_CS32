@@ -21,6 +21,7 @@ private:
 // the same as in the original vector.
 void removeBad(vector<Restaurant*>& v)
 {
+    /*
 	for (auto i = v.begin(); i != v.end(); i++)
 	{
 		if ((*i)->stars() <= 2)
@@ -28,6 +29,22 @@ void removeBad(vector<Restaurant*>& v)
 			delete* i;
 			i = v.erase(i);
 			i--;
+		}
+	}*/
+    auto i = v.begin();
+	auto last = v.begin();
+	while (i != v.end())
+	{
+		if ((*i)->stars() <= 2)
+		{
+            delete * i;
+			v.erase(i);
+			i = last;
+			//i--;
+		}
+		else {
+			last = i;
+			i++;
 		}
 	}
 }

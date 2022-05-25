@@ -1,12 +1,19 @@
 void removeBad(vector<Restaurant*>& v)
 {
-	for (auto i = v.begin(); i != v.end(); i++)
+    auto i = v.begin();
+	auto last = v.begin();
+	while (i != v.end())
 	{
 		if ((*i)->stars() <= 2)
 		{
-			delete* i;
-			i = v.erase(i);
-			i--;
+            delete * i;
+			v.erase(i);
+			i = last;
+			//i--;
+		}
+		else {
+			last = i;
+			i++;
 		}
 	}
 }
