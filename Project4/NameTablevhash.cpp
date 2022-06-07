@@ -32,7 +32,7 @@ private:
         int index = -1;
         int scope = 0;
 
-        item * previous = nullptr;
+        item * previous;
 
         bool isSame(const item& other) {
             return (other.id == id && other.scope == scope);
@@ -53,7 +53,7 @@ private:
 
     item * lastInsert;
 
-    //vector<item> items;
+    vector<item> items;
     //vector<int> m_lines;
 };
 
