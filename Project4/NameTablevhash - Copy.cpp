@@ -5,8 +5,7 @@
 
 #include "NameTable.h"
 #include <string>
-//#include <unordered_map>
-#include <list>
+#include <unordered_map>
 #include <vector>
 using namespace std;
 
@@ -32,8 +31,6 @@ private:
         int index = -1;
         int scope = 0;
 
-        item * previous;
-
         bool isSame(const item& other) {
             return (other.id == id && other.scope == scope);
         }
@@ -45,12 +42,8 @@ private:
     int currentScope = 0;
 
     int hashFunction(const string& id) const;
-
-    list<item>* table;
-
-    int bucketSize = 10000;
-
-    item * lastInsert;
+    vector<item>* table;
+    int bucketSize = 1000;
 
     vector<item> items;
     //vector<int> m_lines;
@@ -63,19 +56,12 @@ void NameTableImpl::enterScope()
 
     //m_ids.push_back("");
     //m_lines.push_back(0);
-
     item entryMarker = item(++currentScope);
-    entryMarker.previous = lastInsert;
-
     if (table == nullptr) {
-        table = new list<item>[bucketSize];
+        table = new vector<item>[bucketSize];
     }
-
-    items.push_back(entryMarker);//Delete this later
-
-    int indexStored = hashFunction(entryMarker.id);
-    table[indexStored].push_back(entryMarker);
-    lastInsert = &table[indexStored].back();
+    items.push_back(entryMarker);
+    table[hashFunction(entryMarker.id)].push_back(entryMarker);
 }
 
 bool NameTableImpl::exitScope()
@@ -83,8 +69,7 @@ bool NameTableImpl::exitScope()
     // Remove ids back to the last scope entry.
     item entryMarker = item(currentScope);
 
-    //TODO: edit this to doesn need the single vector
-    /*
+
     while (!items.empty())
     {
         item current = items.back();
@@ -110,26 +95,8 @@ bool NameTableImpl::exitScope()
 
     if (items.empty())
         return false;
-    
-    */
-    while (lastInsert != nullptr) {
-        item current = * lastInsert;
-        int indexStored = hashFunction(current.id);
 
-        if (!table[indexStored].empty() && table[indexStored].back().isIdentical(current)) {
-            table[indexStored].pop_back();
-        }
-        lastInsert = current.previous;
-        if (current.isSame(entryMarker)) {
-            break;
-        }
-    }
-
-    if (lastInsert == nullptr) {
-        return false;
-    }
-
-    // Remember to remove the scope entry marker itself.
+    // Remove the scope entry marker itself.
     currentScope--;
     return true;
 }
@@ -147,20 +114,16 @@ bool NameTableImpl::declare(const string& id, int lineNum)
     int index = hashFunction(id);
 
     item currentItem = item(id, lineNum, items.size(), currentScope);
-    currentItem.previous = lastInsert;
-
     if (table == nullptr) {
-        table = new list<item>[bucketSize];
+        table = new vector<item>[bucketSize];
     }
     for (item i : table[index]) {
         if (i.isSame(currentItem)) {
             return false;
         }
     }
-    items.push_back(currentItem);//Delete this
-
+    items.push_back(currentItem);
     table[index].push_back(currentItem);
-    lastInsert = &table[index].back();
     return true;
 }
 
@@ -174,7 +137,7 @@ int NameTableImpl::find(const string& id) const
     item currentItem = item(id, -1, items.size(), currentScope);
     int index = hashFunction(id);
     int firstMatchsLN = -1;
-    /*
+
     for (int i = table[index].size() - 1; i >= 0; i--) {
         //If we have a matching id
         if (table[index][i].id == id) {
@@ -185,19 +148,6 @@ int NameTableImpl::find(const string& id) const
             if (table[index][i].isSame(currentItem)) {
                 //If same scope we have a match and return
                 return table[index][i].lineNumber;
-            }
-        }
-    }*/
-    list<item>::reverse_iterator i;
-    for (i = table[index].rbegin(); i != table[index].rend(); i++) {
-        if (i->id == id) {
-            if (firstMatchsLN == -1) {
-                //Note it down first
-                firstMatchsLN = i->lineNumber;
-            }
-            if (i->isSame(currentItem)) {
-                //If same scope we have a match and return
-                return i->lineNumber;
             }
         }
     }
