@@ -32,7 +32,7 @@ private:
         int index = -1;
         int scope = 0;
 
-        item * previous;
+        item * previous = nullptr;
 
         bool isSame(const item& other) {
             return (other.id == id && other.scope == scope);
@@ -49,10 +49,11 @@ private:
     list<item>* table;
 
     int bucketSize = 10000;
+    int count = 0;
 
     item * lastInsert;
 
-    vector<item> items;
+    //vector<item> items;
     //vector<int> m_lines;
 };
 
@@ -63,7 +64,6 @@ void NameTableImpl::enterScope()
 
     //m_ids.push_back("");
     //m_lines.push_back(0);
-
     item entryMarker = item(++currentScope);
     entryMarker.previous = lastInsert;
 
@@ -71,7 +71,7 @@ void NameTableImpl::enterScope()
         table = new list<item>[bucketSize];
     }
 
-    items.push_back(entryMarker);//Delete this later
+    //items.push_back(entryMarker);//Delete this later
 
     int indexStored = hashFunction(entryMarker.id);
     table[indexStored].push_back(entryMarker);
@@ -118,6 +118,7 @@ bool NameTableImpl::exitScope()
 
         if (!table[indexStored].empty() && table[indexStored].back().isIdentical(current)) {
             table[indexStored].pop_back();
+            count--;
         }
         lastInsert = current.previous;
         if (current.isSame(entryMarker)) {
@@ -146,7 +147,7 @@ bool NameTableImpl::declare(const string& id, int lineNum)
     // entry marker.
     int index = hashFunction(id);
 
-    item currentItem = item(id, lineNum, items.size(), currentScope);
+    item currentItem = item(id, lineNum, count, currentScope);
     currentItem.previous = lastInsert;
 
     if (table == nullptr) {
@@ -157,10 +158,11 @@ bool NameTableImpl::declare(const string& id, int lineNum)
             return false;
         }
     }
-    items.push_back(currentItem);//Delete this
+    //items.push_back(currentItem);//Delete this
 
     table[index].push_back(currentItem);
     lastInsert = &table[index].back();
+    count++;
     return true;
 }
 
@@ -171,7 +173,7 @@ int NameTableImpl::find(const string& id) const
 
     // Search back for the most recent declaration still
     // available.
-    item currentItem = item(id, -1, items.size(), currentScope);
+    item currentItem = item(id, -1, count, currentScope);
     int index = hashFunction(id);
     int firstMatchsLN = -1;
     /*
@@ -198,6 +200,9 @@ int NameTableImpl::find(const string& id) const
             if (i->isSame(currentItem)) {
                 //If same scope we have a match and return
                 return i->lineNumber;
+            }
+            if (firstMatchsLN != -1) {
+                break;
             }
         }
     }

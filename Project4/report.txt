@@ -1,0 +1,60 @@
+Data Structure
+
+hash-linkedlist table
+
+An item is an node like in linked list, and a hash table of node is used to store these
+items. Hash key is computed with the name of node.
+
+The item keep tracks of the scope and line this is defined with its string as id. These
+parameters together makes an item unique. Constructors and Comparison functions are 
+defined in the structure, operator is reserved since multiple comparison function will 
+be defined.
+
+The implementation is relatively simple, a hash function is implemented for data storage
+since finding a previous stored key with hash is relatively fast. However, for a hash map
+it is difficult to iterate through the previous components. In order to resolve such an
+issue, the custom hash map has a pointer to the previous item inserted into the map, this
+allows the map to function as a linked list when deleting is required.
+
+For previous to work as intended, vector cannot be used as part of the hash table as it 
+reallocates when size changes. Hence a linked list is used as a row for hash table.
+
+Algorithms Complexity with pseudocode
+
+enterScope(){	//Complexity O(1)
+	an entry marker is defined, and we set its previous to our last inserted node.
+	If our hash table is empty than it is a good time to initialize one.
+	Insert the hash-linkedlist table.
+	CurrentScope tracker increases.
+}
+
+exitScope(){	//Complexity O(N)
+	Iterate from the back of the hash-linkedlist, delete all element untill we encounter
+	the scope entry marker. Which would be deleted as well on exit.
+	When the lastInsert is nullPointer, that means deleted the entire thing, hence false
+	is returned as required.
+	Then CurrentScope tracker decreases.
+}
+
+declare(const string& id, int lineNum){	//Complexity O(1)
+	If the id given is empty, bad parameter, return false.
+	Calculate an index using id input to a hash function.
+	A new item with the input data is defined, and previous is also set.
+	Iterate and try to find any repeated items.
+	If we found it was declared before in the same scope, we return, saying that it
+	was that we declared.
+}
+
+find(const string& id){		//Complexity O(1)
+	Search all previously defined variables, if we found one we note it down first instead
+	of returning, then check if the defined item is actually of the same scope, if true,
+	we can just return, else, we can keep trying (or an better option would be just break
+	out of loop)
+}
+
+hashFunction(const string& id){	//Complexity O(1)
+	From the input parameter (string id), we calculate an hash key.
+}
+
+
+
